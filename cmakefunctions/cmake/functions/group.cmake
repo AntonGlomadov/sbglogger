@@ -1,0 +1,12 @@
+macro(GroupSources curDir)
+   file(GLOB children RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/${curDir} ${CMAKE_CURRENT_SOURCE_DIR}/${curDir}/*)
+   foreach(child ${children})
+          if(IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/${curDir}/${child})
+			GroupSources(${curDir}/${child})
+          else()
+			string(REPLACE "/" "\\" groupName ${curDir})
+            source_group(${groupName} FILES
+			${CMAKE_CURRENT_SOURCE_DIR}/${curDir}/${child})
+          endif()
+   endforeach()
+endmacro()
